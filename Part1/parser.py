@@ -9,6 +9,9 @@ class Stock:
         self.tvl = tvl
         self.ind = ind
 
+    def __repr__(self):
+        return str([self.so, self.sh, self.sl, self.sc, self.tvl, self.ind])
+
 
 def t_to_date(t):
     return t + INITIAL_DAY
