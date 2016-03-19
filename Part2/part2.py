@@ -38,20 +38,39 @@ def Avg(t, j, f):
         count += 1
     return total / count
 
+def Avg2(t, f):
+    total = 0
+    count = 0
+    for j in range(len(stock_data[get_date(t)])):
+        total += f(t, j)
+        count += 1
+    return total / count
+
+def TVL(t, j):
+    return stock_data[get_date(t)][j].tvl
+
 def AvrTVL(t, j):
     return Avg(t, j, lambda day, j: stock_data[get_date(day)][j].tvl)
 
-def AvrRCO(t, j):
-    return Avg(t, j, RCO)
+def AvrRCO(t):
+    return Avg2(t, RCO)
 
-def AvrROC(t, j):
-    return Avg(t, j, ROC)
+def AvrROC(t):
+    return Avg2(t, ROC)
 
-def AvrROO(t, j):
-    return Avg(t, j, ROO)
+def AvrROO(t):
+    return Avg2(t, ROO)
 
 def AvrRVP(t, j):
     return Avg(t, j, RVP)
+
+
+def W2(t, j):
+    return coeff['a1']*(RCC(t-1, j)-AvrRCC(t-1))/N + coeff['a2']*(ROO(t, j)-AvrROO(t))/N + \
+            coeff['a3']*(ROC(t-1, j) - AvrROC(t-1))/N + coeff['a4']*(RCO(t, j) - AvrRCO(t))/N + \
+            coeff['a5']*(TVL(t-1,j) / AvrTVL(t-1,j))*(RCC(t-1,j) - AvrRCC(t-1))/N + \
+            coeff['a6']*(TVL(t-1,j) / AvrTVL(t-1,j))*(ROO(t,j) -AvrROO(t))/N + \
+            coeff['a7']*(TVL(t-1,j) / AvrTVL(t-1,j))*(ROC(t-1,j) - AvrROC(t)) / N
 
 
 # def W1(t,j):
