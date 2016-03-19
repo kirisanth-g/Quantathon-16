@@ -24,6 +24,6 @@ def RP1(t):
     sum2 = 0
     for j in range(len(stock_data[get_date(t)])):
         sum1 += W1(t, j)*RCC(t, j)
-        sum2 += W1(t, j)
+        sum2 += abs(W1(t, j))
 
     return sum1 / sum2
