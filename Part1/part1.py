@@ -20,4 +20,10 @@ def W1(t,j):
 
 
 def RP1(t):
-    return
+    sum1 = 0
+    sum2 = 0
+    for j in range(len(stock_data[get_date(t)])):
+        sum1 += W1(t, j)*RCC(t, j)
+        sum2 += W1(t, j)
+
+    return sum1 / sum2
