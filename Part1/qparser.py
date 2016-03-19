@@ -1,5 +1,3 @@
-INITIAL_DAY = 20000104
-
 class Stock:
     def __init__(self, so, sh, sl, sc, tvl, ind):
         self.so = so
@@ -13,8 +11,12 @@ class Stock:
         return str([self.so, self.sh, self.sl, self.sc, self.tvl, self.ind])
 
 
+
 def t_to_date(t):
-    return t + INITIAL_DAY
+    return dates[t]
+
+def date_to_t(date):
+    return dates.index(date)
 
 
 
@@ -37,4 +39,9 @@ def create_stocks(filename="in_sample_data.txt"):
 
     return stock_data
             
-    
+stock_data = create_stocks()
+
+dates = list(stock_data.keys())
+dates.sort()
+
+   

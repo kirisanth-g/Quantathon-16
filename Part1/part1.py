@@ -1,10 +1,11 @@
 import qparser
 import math
 
-stock_data = qparser.create_stocks()
 get_date = qparser.t_to_date
+stock_data = qparser.stock_data
 N = len(stock_data[get_date(0)])
 T = len(stock_data.keys())
+
 
 def RCC(t, j):
 	return stock_data[get_date(t)][j].sc/stock_data[get_date(t-1)][j].sc-1
