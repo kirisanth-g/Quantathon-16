@@ -1,4 +1,5 @@
 import qparser
+import math
 
 stock_data = qparser.create_stocks()
 get_date = qparser.t_to_date
@@ -27,3 +28,30 @@ def RP1(t):
         sum2 += abs(W1(t, j))
 
     return sum1 / sum2
+
+
+
+def CumR1(t):
+    product = 1
+    for i in range(3,t):
+        product *= 1 + RP1(t)
+
+    return math.log(product)
+
+
+def num41(t):
+    total = 0
+    for j in range(len(stock_data[get_date(t)])):
+        total += abs(W1(t, j))
+
+    return total / N
+
+def num51(t):
+    sum1 = 0
+    sum2 = 0
+    for j in range(len(stock_data[get_date(t)])):
+        sum1 += W1(t, j)
+        sum2 += abs(W1(t, j))
+
+    return sum1 / sum2
+
