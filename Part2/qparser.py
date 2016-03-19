@@ -38,8 +38,15 @@ def create_stocks(filename="in_sample_data.txt"):
                     int(line[i+5].strip())))
 
     return stock_data
+
+def create_coeffs(filename='coeff_part2.team_000.csv'):
+    handle = open(filename, 'r')
+    lines = [e.strip().split(',') for e in handle.readlines()]
+    return {k:float(v) for k, v in zip(lines[0], lines[1])}
+
             
 stock_data = create_stocks()
+coeffs = create_coeffs()
 
 dates = list(stock_data.keys())
 dates.sort()
