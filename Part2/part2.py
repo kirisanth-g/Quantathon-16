@@ -36,6 +36,8 @@ def Avg(t, j, f):
     for day in range(max(1, t-199), t):
         total += f(day, j)
         count += 1
+    if count == 0:
+        return f(t, j)
     return total / count
 
 def Avg2(t, f):
@@ -66,50 +68,56 @@ def AvrRVP(t, j):
 
 
 def W2(t, j):
-    return coeff['a1']*(RCC(t-1, j)-AvrRCC(t-1))/N + coeff['a2']*(ROO(t, j)-AvrROO(t))/N + \
-            coeff['a3']*(ROC(t-1, j) - AvrROC(t-1))/N + coeff['a4']*(RCO(t, j) - AvrRCO(t))/N + \
-            coeff['a5']*(TVL(t-1,j) / AvrTVL(t-1,j))*(RCC(t-1,j) - AvrRCC(t-1))/N + \
-            coeff['a6']*(TVL(t-1,j) / AvrTVL(t-1,j))*(ROO(t,j) -AvrROO(t))/N + \
-            coeff['a7']*(TVL(t-1,j) / AvrTVL(t-1,j))*(ROC(t-1,j) - AvrROC(t)) / N
+    a = RCC(t-1, j)
+    b = AvrRCC(t-1)
+    c = ROO(t, j)
+    d = AvrROO(t)
+    e = ROC(t-1, j)
+    f = AvrROC(t-1)
+    g = RCO(t, j)
+    h = AvrRCO(t)
+    i = TVL(t-1,j)
+    j = AvrTVL(t-1,j)
+    
+    return coeff['a1']*(a - b)/N + coeff['a2']*(c - d)/N + \
+            coeff['a3']*(e - f)/N + coeff['a4']*(g - h)/N + \
+            coeff['a5']*(i / j)*(a - b) / N + \
+            coeff['a6']*(i / j)*(c - d) / N + \
+            coeff['a7']*(i / j)*(e - f) / N + \
+            coeff['a8']*(i / j)*(g - h) / N + \
+            coeff['a9']*(i / j)*(a - b) / N + \
+            coeff['a10']*(i / j)*(c - d) / N + \
+            coeff['a11']*(i / j)*(e - f) / N + \
+            coeff['a12']*(i / j)*(g - h) / N
 
 
-# def W1(t,j):
-#     return -(1/N)*(RCC(t-1, j) - AvrRCC(t-1))
+
+def RP2(t):
+    sum1 = 0
+    sum2 = 0
+    for j in range(len(stock_data[get_date(t)])):
+        sum1 += W2(t, j)*RCC(t, j)
+        sum2 += abs(W2(t, j))
+    return sum1 / sum2
 
 
+def CumR2(t):
+    product = 1
+    for i in range(3,t):
+        product *= 1 + RP2(t)
+    return math.log(product)
 
-# def RP1(t):
-#     sum1 = 0
-#     sum2 = 0
-#     for j in range(len(stock_data[get_date(t)])):
-#         sum1 += W1(t, j)*RCC(t, j)
-#         sum2 += abs(W1(t, j))
+def num42(t):
+    total = 0
+    for j in range(len(stock_data[get_date(t)])):
+        total += abs(W2(t, j))
+    return total / N
 
-#     return sum1 / sum2
-
-
-
-# def CumR1(t):
-#     product = 1
-#     for i in range(3,t):
-#         product *= 1 + RP1(t)
-
-#     return math.log(product)
-
-
-# def num41(t):
-#     total = 0
-#     for j in range(len(stock_data[get_date(t)])):
-#         total += abs(W1(t, j))
-
-#     return total / N
-
-# def num51(t):
-#     sum1 = 0
-#     sum2 = 0
-#     for j in range(len(stock_data[get_date(t)])):
-#         sum1 += W1(t, j)
-#         sum2 += abs(W1(t, j))
-
-#     return sum1 / sum2
+def num52(t):
+    sum1 = 0
+    sum2 = 0
+    for j in range(len(stock_data[get_date(t)])):
+        sum1 += W2(t, j)
+        sum2 += abs(W2(t, j))
+    return sum1 / sum2
 
