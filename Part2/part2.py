@@ -4,6 +4,7 @@ import math
 stock_data = qparser.create_stocks()
 get_date = qparser.t_to_date
 log = math.log
+coeff = qparser.create_coeffs()
 N = len(stock_data[get_date(0)])
 T = len(stock_data.keys())
 
@@ -29,46 +30,28 @@ def AvrRCC(t):
         total += stock.sc
     return total / N
 
-def AvrTVL(t, j):
+def Avg(t, j, f):
     total = 0
     count = 0
     for day in range(max(1, t-199), t):
-        total += stock_data[get_date(day)][j]
+        total += f(day, j)
         count += 1
     return total / count
+
+def AvrTVL(t, j):
+    return Avg(t, j, lambda day, j: stock_data[get_date(day)][j].tvl)
 
 def AvrRCO(t, j):
-    total = 0
-    count = 0
-    for day in range(max(1, t-199), t):
-        total += RCO(day, j)
-        count += 1
-    return total / count
+    return Avg(t, j, RCO)
 
 def AvrROC(t, j):
-    total = 0
-    count = 0
-    for day in range(max(1, t-199), t):
-        total += ROC(day, j)
-        count += 1
-    return total / count
+    return Avg(t, j, ROC)
 
 def AvrROO(t, j):
-    total = 0
-    count = 0
-    for day in range(max(1, t-199), t):
-        total += ROO(day, j)
-        count += 1
-    return total / count
-
+    return Avg(t, j, ROO)
 
 def AvrRVP(t, j):
-    total = 0
-    count = 0
-    for day in range(max(1, t-199), t):
-        total += RVP(day, j)
-        count += 1
-    return total / count
+    return Avg(t, j, RVP)
 
 
 # def W1(t,j):
