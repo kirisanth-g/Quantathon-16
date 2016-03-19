@@ -7,8 +7,8 @@ stock_data = qparser.stock_data
 OUTPUT="D1.csv"
 
 handle = open(OUTPUT, 'w')
-for date in qparser.dates[2:]:
-    print(get_t(date))
+for date in qparser.dates[1:]:
+    print(date)
     handle.write(str(date) + ',')
     handle.write(str(part1.RP1(get_t(date))) + ',')
     handle.write(str(part1.CumR1(get_t(date))) + ',')
