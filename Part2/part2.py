@@ -9,22 +9,28 @@ N = len(stock_data[get_date(0)])
 T = len(stock_data.keys())
 
 def RCO(t, j):
+    #close-to-open return on stock j
 	return stock_data[get_date(t)][j].so/stock_data[get_date(t-1)][j].sc-1
 
 def ROC(t, j):
+    #open-to-close return
     return stock_data[get_date(t)][j].sc/stock_data[get_date(t)][j].so-1
 
 def ROO(t, j):
+    #open-to-open return for each stock
     return stock_data[get_date(t)][j].so/stock_data[get_date(t-1)][j].so-1
 
 def RVP(t, j):
+    #range-based proxy for variance on day t
     return (1/(4*log(2)))* ((log(stock_data[get_date(t)][j].sh) - 
         log(stock_data[get_date(t)][j].sl))**2)
 
 def RCC(t, j):
+    #daily close-to-close return for stock j
     return stock_data[get_date(t)][j].sc/stock_data[get_date(t-1)][j].sc-1
 
 def AvrRCC(t):
+    #average daily close-to-close return
     total = 0
     for stock in stock_data[get_date(t)]:
         total += stock.sc
@@ -49,25 +55,32 @@ def Avg2(t, f):
     return total / count
 
 def TVL(t, j):
+    #trading volume
     return stock_data[get_date(t)][j].tvl
 
 def AvrTVL(t, j):
+    #average trading volume
     return Avg(t, j, lambda day, j: stock_data[get_date(day)][j].tvl)
 
 def AvrRCO(t):
+    #average close-to-open return on stock j
     return Avg2(t, RCO)
 
 def AvrROC(t):
+    #average open-to-close return
     return Avg2(t, ROC)
 
 def AvrROO(t):
+    #average open-to-open return
     return Avg2(t, ROO)
 
 def AvrRVP(t, j):
+    #average range-based proxy for variance
     return Avg(t, j, RVP)
 
 
 def W2(t, j):
+    #portfolio weights
     a = RCC(t-1, j)
     b = AvrRCC(t-1)
     c = ROO(t, j)
